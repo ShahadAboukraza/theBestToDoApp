@@ -1,0 +1,52 @@
+<main class="todo-container">
+  <h2>Todo App for {{ name }}</h2>
+
+  <mat-card class="add-card">
+    <div class="add-fields">
+      <input
+        matInput
+        placeholder="Task description"
+        [(ngModel)]="newText"
+      />
+      <select [(ngModel)]="newPriority">
+        <option value="red">🔴 High</option>
+        <option value="orange">🟠 Medium</option>
+        <option value="green">🟢 Low</option>
+      </select>
+      <input
+        matInput
+        type="date"
+        [(ngModel)]="newDueDate"
+      />
+      <button mat-raised-button color="primary" (click)="addTask()">
+        Add
+      </button>
+    </div>
+  </mat-card>
+
+  <div *ngIf="tasks.length; else noTasks">
+    <mat-card
+      class="task-card"
+      *ngFor="let task of tasks; let i = index"
+      [ngClass]="task.priority"
+    >
+      <mat-card-header>
+        <mat-checkbox
+          [checked]="task.completed"
+          (change)="toggleCompleted(i)"
+        ></mat-checkbox>
+        <mat-card-title>{{ task.text }}</mat-card-title>
+        <button mat-icon-button (click)="deleteTask(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Due: {{ task.dueDate || '—' }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <ng-template #noTasks>
+    <p>No tasks yet. Add one above!</p>
+  </ng-template>
+</main>

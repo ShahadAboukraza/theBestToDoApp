@@ -1,0 +1,17 @@
+.todo-container {
+  padding: 1rem;
+}
+.add-card {
+  margin-bottom: 1rem;
+}
+.add-fields {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.task-card {
+  margin-bottom: 0.75rem;
+  &.red    { border-left: 4px solid #f44336; }
+  &.orange { border-left: 4px solid #ff9800; }
+  &.green  { border-left: 4px solid #4caf50; }
+}

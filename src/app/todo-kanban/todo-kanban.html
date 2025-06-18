@@ -1,0 +1,55 @@
+<div class="kanban-board">
+  <div
+    class="kanban-column"
+    *ngFor="let col of columns; let ci = index; trackBy: trackByColumn"
+  >
+    <div class="kanban-header">
+      <h3>{{ col.title }} ({{ col.tasks.length }})</h3>
+      <button mat-icon-button (click)="openDialog(ci)">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    <div
+      class="kanban-tasks"
+      cdkDropList
+      [cdkDropListData]="col.tasks"
+      (cdkDropListDropped)="drop($event, ci)"
+    >
+      <mat-card
+        class="kanban-card"
+        *ngFor="let task of col.tasks; let ti = index; trackBy: trackByTask"
+        cdkDrag
+      >
+        <mat-card-header>
+          <mat-card-title>{{ task.title }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ task.startDate | date:'MM/dd hh:mm a' }}
+            – {{ task.endDate | date:'MM/dd hh:mm a' }}
+          </mat-card-subtitle>
+          <!-- delete button -->
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="deleteTask(ci, ti)"
+            aria-label="Delete task"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p>{{ task.description }}</p>
+        </mat-card-content>
+
+        <mat-card-footer>
+          <span class="task-avatars">👤+{{ task.members }}</span>
+        </mat-card-footer>
+      </mat-card>
+
+      <div *ngIf="col.tasks.length === 0" class="empty-column">
+        No tasks
+      </div>
+    </div>
+  </div>
+</div>
