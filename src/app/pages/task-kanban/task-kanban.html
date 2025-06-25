@@ -1,8 +1,8 @@
 <div class="kanban-board" cdkDropListGroup>
-  <div class="kanban-column border border-secondary rounded-4">
+  <div class="kanban-column border border-secondary rounded-2">
     <div class="kanban-header">
-      <h3>To do ({{kanbanTasks.todo.length}})</h3>
-      <button mat-icon-button (click)="openDialog('To do')">
+      <h3>To do ({{ kanbanTasks.todo.length }})</h3>
+      <button mat-icon-button class="bg-primary text-white" style="line-height: 20px;" (click)="openDialog('To do')">
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -12,17 +12,18 @@
     <div class="kanban-tasks" cdkDropList
          [cdkDropListData]="kanbanTasks.todo"
          (cdkDropListDropped)="drop($event, 'To do')">
-      <div *ngFor="let task of kanbanTasks.todo; let ti = index; trackBy: trackByTask"
+      <div *ngFor="let task of kanbanTasks.todo;"
            cdkDrag [cdkDragData]="task">
-        <app-task-card [task]="task" (taskChange)="reload()"/>
+        <app-task-card [task]="task"/>
       </div>
     </div>
   </div>
 
-  <div class="kanban-column border border-secondary rounded-4">
+  <div class="kanban-column border border-secondary rounded-2">
     <div class="kanban-header">
-      <h3>In progress ({{kanbanTasks.inProgress.length}})</h3>
-      <button mat-icon-button (click)="openDialog('In progress')">
+      <h3>In progress ({{ kanbanTasks.inProgress.length }})</h3>
+      <button mat-icon-button class="bg-primary text-white" style="line-height: 20px;"
+              (click)="openDialog('In progress')">
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -34,17 +35,17 @@
     <div class="kanban-tasks" cdkDropList
          [cdkDropListData]="kanbanTasks.inProgress"
          (cdkDropListDropped)="drop($event, 'In progress')">
-      <div *ngFor="let task of kanbanTasks.inProgress; let ti = index; trackBy: trackByTask"
+      <div *ngFor="let task of kanbanTasks.inProgress;"
            cdkDrag [cdkDragData]="task">
-        <app-task-card [task]="task" (taskChange)="reload()"/>
+        <app-task-card [task]="task"/>
       </div>
     </div>
   </div>
 
-  <div class="kanban-column border border-secondary rounded-4">
+  <div class="kanban-column border border-secondary rounded-2">
     <div class="kanban-header">
-      <h3>Review ({{kanbanTasks.review.length}})</h3>
-      <button mat-icon-button (click)="openDialog('Review')">
+      <h3>Review ({{ kanbanTasks.review.length }})</h3>
+      <button mat-icon-button class="bg-primary text-white" style="line-height: 20px;" (click)="openDialog('Review')">
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -54,18 +55,18 @@
     <div class="kanban-tasks" cdkDropList
          [cdkDropListData]="kanbanTasks.review"
          (cdkDropListDropped)="drop($event, 'Review')">
-      <div *ngFor="let task of kanbanTasks.review; let ti = index; trackBy: trackByTask"
+      <div *ngFor="let task of kanbanTasks.review;"
            cdkDrag [cdkDragData]="task">
-        <app-task-card [task]="task" (taskChange)="reload()"/>
+        <app-task-card [task]="task"/>
       </div>
     </div>
   </div>
 
-  <div class="kanban-column border border-secondary rounded-4">
+  <div class="kanban-column border border-secondary rounded-2">
 
     <div class="kanban-header">
-      <h3>Done ({{kanbanTasks.done.length}})</h3>
-      <button mat-icon-button (click)="openDialog('Done')">
+      <h3>Done ({{ kanbanTasks.done.length }})</h3>
+      <button mat-icon-button class="bg-primary text-white" style="line-height: 20px;" (click)="openDialog('Done')">
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -75,9 +76,9 @@
     <div class="kanban-tasks" cdkDropList
          [cdkDropListData]="kanbanTasks.done"
          (cdkDropListDropped)="drop($event, 'Done')">
-      <div *ngFor="let task of kanbanTasks.done; let ti = index; trackBy: trackByTask"
+      <div *ngFor="let task of kanbanTasks.done;"
            cdkDrag [cdkDragData]="task">
-        <app-task-card [task]="task" (taskChange)="reload()"/>
+        <app-task-card [task]="task"/>
       </div>
     </div>
   </div>

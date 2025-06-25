@@ -1,17 +1,14 @@
-import { Component } from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButton} from '@angular/material/button';
-
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatToolbarModule, RouterLink, MatButton, RouterLinkActive],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 
 })
 export class App {
-  protected title = 'MyToDoapp';
+  protected title = 'Tasks By Shahad';
 }

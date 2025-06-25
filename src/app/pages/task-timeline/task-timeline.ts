@@ -1,19 +1,20 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
-import {TaskService} from '../services/task-service';
-import {TaskModel} from '../todo-kanban/todo-kanban';
+import {TaskService} from '../../services/task-service';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {FormsModule} from '@angular/forms';
 import {MatIconButton} from '@angular/material/button';
-import {ReviewTask} from '../review-task/review-task';
+import {ReviewTask} from '../../components/review-task/review-task';
 import {MatDialog} from '@angular/material/dialog';
+import {TaskModel} from '../../models/task';
+import {Subject, takeUntil} from 'rxjs';
 
 @Component({
-  selector: 'app-todo-timeline',
+  selector: 'app-task-timeline',
   standalone: true,
-  templateUrl: './todo-timeline.html',
-  styleUrls: ['./todo-timeline.scss'],
+  templateUrl: './task-timeline.html',
+  styleUrls: ['./task-timeline.scss'],
   imports: [
     CommonModule,
     FormsModule,
@@ -23,16 +24,17 @@ import {MatDialog} from '@angular/material/dialog';
     MatIconButton
   ]
 })
-export class TodoTimeline implements OnInit {
+export class TaskTimeline implements OnInit {
   tasks: TaskModel[] = [];
-  timers: { [key: number]: number } = {};
-  elapsedSeconds: { [key: number]: number } = {};
-  intervalHandles: { [key: number]: any } = {};
+  private destroy$ = new Subject<void>();
+  intervalHandles: { [key: string]: any } = {};
   private taskService = inject(TaskService);
   private dialog = inject(MatDialog);
 
   ngOnInit(): void {
-    this.tasks = this.taskService.getTasks();
+    this.taskService.tasks
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(tasks => this.tasks = tasks);
   }
 
   toggleTimer(task: TaskModel): void {
@@ -41,12 +43,12 @@ export class TodoTimeline implements OnInit {
     if (this.intervalHandles[taskId]) {
       clearInterval(this.intervalHandles[taskId]);
       delete this.intervalHandles[taskId];
-      this.taskService.updateSpecificTask(task); // Save on pause
+      this.taskService.updateTask(task).then(); // Save on pause
     } else {
       if (!task.elapsed) task.elapsed = 0;
       this.intervalHandles[taskId] = setInterval(() => {
         task.elapsed!++;
-        this.taskService.updateSpecificTask(task); // update so it can be reloaded in timeline
+        this.taskService.updateTask(task).then(); // update so it can be reloaded in timeline
       }, 1000);
     }
   }
@@ -59,12 +61,12 @@ export class TodoTimeline implements OnInit {
 
   markAsDone(task: TaskModel): void {
     task.stage = 'Done';
-    this.taskService.updateSpecificTask(task);
+    this.taskService.updateTask(task).then();
   }
 
   resetTimer(task: TaskModel): void {
     task.elapsed = 0;
-    this.taskService.updateSpecificTask(task);
+    this.taskService.updateTask(task).then();
   }
 
   timelineHeight() {

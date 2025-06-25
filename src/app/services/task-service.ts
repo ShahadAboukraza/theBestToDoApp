@@ -1,56 +1,67 @@
-import {inject, Injectable} from '@angular/core';
-import {TaskModel} from '../todo-kanban/todo-kanban';
-import {MatDialog} from '@angular/material/dialog';
+import {Injectable} from '@angular/core';
+import {
+  addDoc,
+  collection,
+  collectionSnapshots,
+  deleteDoc,
+  doc,
+  Firestore,
+  query,
+  updateDoc,
+  where
+} from '@angular/fire/firestore';
+import {BehaviorSubject, map} from 'rxjs';
+import {TaskModel} from '../models/task';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  tasks: TaskModel[] = [];
-  readonly dialog = inject(MatDialog);
-  constructor() { }
+  tasks = new BehaviorSubject<TaskModel[]>([]);
+
+  constructor(private firestore: Firestore) {
+  }
 
   getTasks() {
-    // Get saved tasks list from local storage
-    const saved = localStorage.getItem('tasks');
-    // Check if it's found
-    if (saved) {
-      //If found parse from JSON string to list
-      this.tasks = JSON.parse(saved) as TaskModel[];
-    } else {
-      // Return empty list
-      this.tasks = [];
-    }
+    const userId = '1';
+    const tasksRef = collection(this.firestore, 'tasks');
+    const q = query(tasksRef, where('ownerId', '==', userId));
 
-    return this.tasks;
+    collectionSnapshots(q).pipe(
+      map(snapshot => {
+        const tasks = snapshot.map(snap => ({
+          id: snap.id,
+          ...snap.data()
+        })) as unknown as TaskModel[];
+        this.tasks.next(tasks);
+        return tasks;
+      })
+    ).subscribe();
   }
 
-  save(data: TaskModel): void {
-    this.tasks.push(data);
-    this.updateTask();
+  addTask(task: any) {
+    const ownerId = '1';
+    const tasksRef = collection(this.firestore, 'tasks');
+    const payload = {
+      ...task,
+      ownerId,
+      startDate: task.startDate.toISOString(),
+      endDate: task.endDate.toISOString(),
+    };
+    return addDoc(tasksRef, payload);
   }
 
-  deleteTask(taskId: number): void {
-    //Remove the task with the taskId
-    this.tasks = this.tasks.filter(task => task.id !== taskId);
-    this.updateTask();
+  deleteTask(id: string) {
+    const docRef = doc(this.firestore, 'tasks', id);
+    return deleteDoc(docRef);
   }
 
-  updateSpecificTask(updated: TaskModel): void {
-    const index = this.tasks.findIndex(t => t.id === updated.id);
-    if (index !== -1) {
-      this.tasks[index] = updated;
-      this.updateTask(); // Save to localStorage
-    }
-  }
-
-  updateTask() {
-    localStorage.setItem('tasks', JSON.stringify(this.tasks));
-  }
-
-  updateInStorage(tasks: TaskModel[]): void {
-    this.tasks = tasks;
-    this.updateTask();
+  updateTask(task: any) {
+    const {id, ...payload} = task;
+    const docRef = doc(this.firestore, 'tasks', id);
+    payload.startDate = task.startDate instanceof Date ? task.startDate.toISOString() : task.startDate;
+    payload.endDate = task.endDate instanceof Date ? task.endDate.toISOString() : task.endDate;
+    return updateDoc(docRef, payload);
   }
 
 }

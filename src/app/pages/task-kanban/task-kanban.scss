@@ -5,6 +5,7 @@
   overflow-x: auto;
   background: #f0f2f505;
   height: calc(100vh - 139px);
+  max-width: 1400px;
 }
 
 .kanban-column {
@@ -21,8 +22,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0.5rem;
-  border-bottom: 1px solid #ddd;
+  padding: 0.5rem 1.5rem;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .kanban-tasks {
@@ -92,7 +93,14 @@
 }
 
 h3 {
-  font-size: 20px;
-  padding-left: 10px;
-  padding-top: 10px;
+  font-size: 15px;
+  margin-bottom: 0;
+}
+
+
+.mat-mdc-icon-button {
+  line-height: 20px;
+  height: 30px;
+  width: 30px;
+  padding: 0;
 }
