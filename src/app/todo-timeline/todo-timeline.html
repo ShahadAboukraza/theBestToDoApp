@@ -1,1 +1,49 @@
-<p>todo-timeline works!</p>
+<div class="timeline-container">
+  <div [style.height]="timelineHeight()" class="timeline-line"></div>
+
+  <div *ngFor="let task of tasks" class="timeline-item">
+    <div class="timeline-dateblock">
+      <div class="timeline-date">{{ task.startDate | date: 'dd MMM' }}</div>
+      <div class="timeline-time">{{ task.startDate | date: 'hh:mm a' }}</div>
+    </div>
+
+    <div class="timeline-node">
+      <div
+        (click)="markAsDone(task)"
+        [class.completed]="task.stage === 'Done'"
+        class="timeline-circle"
+      >
+        <svg *ngIf="task.stage === 'Done'" class="tick-icon" viewBox="0 0 24 24">
+          <path d="M6 12l4 4 8-8" fill="none" stroke="white" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ⬇️ Double-click now applies only to this task card -->
+    <div class="timeline-content">
+      <mat-card (dblclick)="viewTask(task)" class="timeline-card">
+        <mat-card-title>{{ task.title }}</mat-card-title>
+        <mat-card-content class="ps-0 d-flex justify-content-between gap-3 align-items-center">
+          <div class="d-flex flex-column gap-2">
+            <span>{{ task.description }}</span>
+            <span><strong>Stage:</strong> {{ task.stage }}</span>
+            <span><strong>Priority:</strong> {{ task.priority }}</span>
+          </div>
+          <div class="bg-secondary rounded text-white fw-bold time-bar">
+            {{ formatTime(task.elapsed || 0) }}
+          </div>
+          <div class="d-flex justify-content-end gap-3 align-items-center">
+            <button (click)="resetTimer(task)" mat-icon-button>
+              <mat-icon>replay</mat-icon>
+            </button>
+            <button (click)="toggleTimer(task)" mat-icon-button>
+              <mat-icon>
+                {{ intervalHandles[task.id] ? 'stop_circle' : 'play_circle' }}
+              </mat-icon>
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

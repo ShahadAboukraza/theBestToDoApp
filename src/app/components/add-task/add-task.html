@@ -1,31 +1,52 @@
-<div class="d-flex flex-column gap-3 p-5">
-  <span class="fw-bold">Add task</span>
+@if (isEdit) {
+  <div class="d-flex flex-column gap-3 p-4 form">
+    <span class="fw-bold">Add task - {{ data.stage }}</span>
 
-  <mat-form-field>
-    <mat-label>title</mat-label>
-    <input matInput [(ngModel)]="task.title">
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>start date</mat-label>
-    <input matInput [matDatepicker]="start" [(ngModel)]="task.startDate">
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="start"></mat-datepicker-toggle>
-    <mat-datepicker #start></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>end date</mat-label>
-    <input matInput [matDatepicker]="end" [(ngModel)]="task.endDate">
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="end"></mat-datepicker-toggle>
-    <mat-datepicker #end></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>description</mat-label>
-    <textarea matInput [(ngModel)]="task.description"></textarea>
-  </mat-form-field>
-  <section>
-    <div class="example-button-row">
-      <button matButton="filled" (click)="saveTask()">Save</button>
-    </div>
-  </section>
-</div>
+    <mat-form-field appearance="outline">
+      <mat-label>title</mat-label>
+      <input [(ngModel)]="task.title" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>start date</mat-label>
+      <input [(ngModel)]="task.startDate" [matDatepicker]="start" matInput>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle [for]="start" matIconSuffix></mat-datepicker-toggle>
+      <mat-datepicker #start></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>end date</mat-label>
+      <input [(ngModel)]="task.endDate" [matDatepicker]="end" matInput>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle [for]="end" matIconSuffix></mat-datepicker-toggle>
+      <mat-datepicker #end></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>description</mat-label>
+      <textarea [(ngModel)]="task.description" matInput></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Priority</mat-label>
+
+      <select [(ngModel)]="task.priority" matInput matNativeControl required>
+        <option value=" 🔴 ">High 🔴</option>
+        <option value=" 🟠 ">Medium 🟠</option>
+        <option value=" 🟢 ">Low 🟢</option>
+      </select>
+    </mat-form-field>
+    <section>
+      <div class="example-button-row">
+        <button (click)="saveTask()" matButton="filled">Save</button>
+      </div>
+    </section>
+  </div>
+} @else {
+  <app-review-task [task]="data"/>
+  <div class="d-flex gap-3 justify-content-end p-3">
+    <button mat-dialog-close mat-button>Close</button>
+    <button matButton="filled" (click)="isEdit = true">Edit</button>
+  </div>
+
+}
+
+

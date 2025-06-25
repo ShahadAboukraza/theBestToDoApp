@@ -1,0 +1,8 @@
+<div class="p-3 review-task">
+  <h2>{{ task.title }}</h2>
+  <p><strong>Title:</strong> {{ task.title }}</p>
+  <p><strong>Description:</strong> {{ task.description }}</p>
+  <p><strong>Start:</strong> {{ task.startDate | date:'medium' }}</p>
+  <p><strong>End:</strong> {{ task.endDate | date:'medium' }}</p>
+  <p><strong>Status:</strong> {{ task.stage }}</p>
+</div>

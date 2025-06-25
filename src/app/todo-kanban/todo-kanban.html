@@ -1,55 +1,86 @@
-<div class="kanban-board">
-  <div
-    class="kanban-column"
-    *ngFor="let col of columns; let ci = index; trackBy: trackByColumn"
-  >
+<div class="kanban-board" cdkDropListGroup>
+  <div class="kanban-column border border-secondary rounded-4">
     <div class="kanban-header">
-      <h3>{{ col.title }} ({{ col.tasks.length }})</h3>
-      <button mat-icon-button (click)="openDialog(ci)">
+      <h3>To do ({{kanbanTasks.todo.length}})</h3>
+      <button mat-icon-button (click)="openDialog('To do')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="kanbanTasks.todo.length === 0" class="empty-column">
+      No tasks
+    </div>
+    <div class="kanban-tasks" cdkDropList
+         [cdkDropListData]="kanbanTasks.todo"
+         (cdkDropListDropped)="drop($event, 'To do')">
+      <div *ngFor="let task of kanbanTasks.todo; let ti = index; trackBy: trackByTask"
+           cdkDrag [cdkDragData]="task">
+        <app-task-card [task]="task" (taskChange)="reload()"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="kanban-column border border-secondary rounded-4">
+    <div class="kanban-header">
+      <h3>In progress ({{kanbanTasks.inProgress.length}})</h3>
+      <button mat-icon-button (click)="openDialog('In progress')">
         <mat-icon>add</mat-icon>
       </button>
     </div>
 
-    <div
-      class="kanban-tasks"
-      cdkDropList
-      [cdkDropListData]="col.tasks"
-      (cdkDropListDropped)="drop($event, ci)"
-    >
-      <mat-card
-        class="kanban-card"
-        *ngFor="let task of col.tasks; let ti = index; trackBy: trackByTask"
-        cdkDrag
-      >
-        <mat-card-header>
-          <mat-card-title>{{ task.title }}</mat-card-title>
-          <mat-card-subtitle>
-            {{ task.startDate | date:'MM/dd hh:mm a' }}
-            – {{ task.endDate | date:'MM/dd hh:mm a' }}
-          </mat-card-subtitle>
-          <!-- delete button -->
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="deleteTask(ci, ti)"
-            aria-label="Delete task"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-card-header>
+    <div *ngIf="kanbanTasks.inProgress.length === 0" class="empty-column">
+      No tasks
+    </div>
 
-        <mat-card-content>
-          <p>{{ task.description }}</p>
-        </mat-card-content>
+    <div class="kanban-tasks" cdkDropList
+         [cdkDropListData]="kanbanTasks.inProgress"
+         (cdkDropListDropped)="drop($event, 'In progress')">
+      <div *ngFor="let task of kanbanTasks.inProgress; let ti = index; trackBy: trackByTask"
+           cdkDrag [cdkDragData]="task">
+        <app-task-card [task]="task" (taskChange)="reload()"/>
+      </div>
+    </div>
+  </div>
 
-        <mat-card-footer>
-          <span class="task-avatars">👤+{{ task.members }}</span>
-        </mat-card-footer>
-      </mat-card>
+  <div class="kanban-column border border-secondary rounded-4">
+    <div class="kanban-header">
+      <h3>Review ({{kanbanTasks.review.length}})</h3>
+      <button mat-icon-button (click)="openDialog('Review')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="kanbanTasks.review.length === 0" class="empty-column">
+      No tasks
+    </div>
+    <div class="kanban-tasks" cdkDropList
+         [cdkDropListData]="kanbanTasks.review"
+         (cdkDropListDropped)="drop($event, 'Review')">
+      <div *ngFor="let task of kanbanTasks.review; let ti = index; trackBy: trackByTask"
+           cdkDrag [cdkDragData]="task">
+        <app-task-card [task]="task" (taskChange)="reload()"/>
+      </div>
+    </div>
+  </div>
 
-      <div *ngIf="col.tasks.length === 0" class="empty-column">
-        No tasks
+  <div class="kanban-column border border-secondary rounded-4">
+
+    <div class="kanban-header">
+      <h3>Done ({{kanbanTasks.done.length}})</h3>
+      <button mat-icon-button (click)="openDialog('Done')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="kanbanTasks.done.length === 0" class="empty-column">
+      No tasks
+    </div>
+    <div class="kanban-tasks" cdkDropList
+         [cdkDropListData]="kanbanTasks.done"
+         (cdkDropListDropped)="drop($event, 'Done')">
+      <div *ngFor="let task of kanbanTasks.done; let ti = index; trackBy: trackByTask"
+           cdkDrag [cdkDragData]="task">
+        <app-task-card [task]="task" (taskChange)="reload()"/>
       </div>
     </div>
   </div>
 </div>
+
+

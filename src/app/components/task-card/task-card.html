@@ -1,0 +1,42 @@
+<mat-card
+  (dblclick)="viewTask(task)"
+  class="task-card border border-secondary m-3 px-4 pt-4"
+>
+  <mat-card-header>
+    <mat-card-title>{{ task.title }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ task.startDate | date: 'MM/dd/yyyy' }} –
+      {{ task.endDate | date: 'MM/dd/yyyy' }}
+    </mat-card-subtitle>
+
+    <span [ngClass]="task.priority" class="priority-tag">
+      {{ task.priority }}
+    </span>
+  </mat-card-header>
+
+  <mat-card-content class="p-0">
+    <p>{{ task.description }}</p>
+  </mat-card-content>
+
+  <mat-card-footer class="d-flex gap-3 justify-content-end pt-2 border-top">
+    <button
+      (click)="editTask(task)"
+      aria-label="Edit task"
+      class="text-primary"
+      color="warn"
+      mat-icon-button
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+
+    <button
+      (click)="deleteTask(task.id)"
+      aria-label="Delete task"
+      class="text-primary"
+      color="warn"
+      mat-icon-button
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-card-footer>
+</mat-card>

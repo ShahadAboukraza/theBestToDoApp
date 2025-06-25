@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
-import {Todo} from './todo/todo';
-import {TodoList} from './todo-list/todo-list';
 import {TodoTimeline} from './todo-timeline/todo-timeline';
 import {TodoCalendar} from './todo-calendar/todo-calendar';
 import {TodoKanban} from './todo-kanban/todo-kanban';
+import {TodoList} from './todo-list/todo-list';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'tasks', pathMatch: 'full'},

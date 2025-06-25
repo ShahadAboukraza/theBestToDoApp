@@ -7,5 +7,23 @@ $secondary: #54bb7a;
 // Then import Bootstrap
 @import "../node_modules/bootstrap/scss/bootstrap";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+.mat-mdc-form-field-infix {
+  --mat-form-field-container-height: 36px;
+}
+
+.mdc-text-field--outlined.small .mat-mdc-form-field-infix, .mdc-text-field--no-label .mat-mdc-form-field-infix {
+  --mat-form-field-container-vertical-padding: 5px;
+}

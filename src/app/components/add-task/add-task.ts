@@ -1,26 +1,19 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormsModule }                from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogModule
-} from '@angular/material/dialog';
-import { MatFormFieldModule }         from '@angular/material/form-field';
-import { MatInputModule }             from '@angular/material/input';
-import { MatSelectModule }            from '@angular/material/select';
-import { MatDatepickerModule }        from '@angular/material/datepicker';
-import { MatDatepickerToggle }        from '@angular/material/datepicker';
-import { MatButtonModule }            from '@angular/material/button';
-import { MatIconModule }              from '@angular/material/icon';
-import { provideNativeDateAdapter }   from '@angular/material/core';
-
-export interface DialogData {
-  stage: string;
-}
+import {Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule, MatDatepickerToggle} from '@angular/material/datepicker';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {provideNativeDateAdapter} from '@angular/material/core';
+import {TaskModel} from '../../todo-kanban/todo-kanban';
+import {ReviewTask} from '../../review-task/review-task';
 
 @Component({
   standalone: true,
-  selector:  'app-add-task',
+  selector: 'app-add-task',
   imports: [
     FormsModule,
     MatDialogModule,
@@ -30,26 +23,40 @@ export interface DialogData {
     MatDatepickerModule,
     MatDatepickerToggle,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    ReviewTask
   ],
   templateUrl: './add-task.html',
-  styleUrls:   ['./add-task.scss'],
-  providers:   [ provideNativeDateAdapter() ]
+  styleUrls: ['./add-task.scss'],
+  providers: [provideNativeDateAdapter()]
 })
 export class AddTask implements OnInit {
-  readonly data = inject<DialogData>(MAT_DIALOG_DATA);
+  readonly data = inject<any>(MAT_DIALOG_DATA);
+  isEdit = false;
+  task: TaskModel = {
+    id: this.generateId(),
+    title: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+    stage: this.data.stage,
+    members: '',
+    priority: ''
+  };
   private dialogRef = inject(MatDialogRef<AddTask>);
 
-  task = {
-    title:       '',
-    description: '',
-    startDate:   '',
-    endDate:     '',
-    stage:       ''
-  };
-
   ngOnInit() {
-    this.task.stage = this.data.stage;
+    // If editing existing task
+    this.isEdit = this.data.isEdit;
+    if (this.data.title) {
+      this.task = {...this.data}
+    } else {
+      this.task.stage = this.data.stage;
+    }
+  }
+
+  generateId() {
+    return new Date().getTime();
   }
 
   cancel() {
