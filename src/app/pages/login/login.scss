@@ -1,0 +1,77 @@
+:host {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.signin-container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.logo {
+  margin-bottom: 30px;
+}
+
+.logo h1 {
+  color: #333;
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+
+.logo p {
+  color: #666;
+  font-size: 16px;
+}
+
+.signin-form {
+  margin-bottom: 30px;
+}
+
+.google-signin-btn {
+  width: 100%;
+  background: white;
+  border: 2px solid #e1e5e9;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #333;
+}
+
+.google-signin-btn:hover {
+  background: #f8f9fa;
+  border-color: #dadce0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 480px) {
+  .signin-container {
+    padding: 30px 20px;
+    margin: 10px;
+  }
+}
+
+.page-name {
+  font-size: 27px;
+  font-weight: bold;
+}

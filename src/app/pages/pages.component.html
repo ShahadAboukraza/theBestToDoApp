@@ -1,0 +1,31 @@
+<mat-toolbar class="border-bottom bg-white">
+  <div class="d-flex align-items-center w-100">
+    <a routerLink="/" class="page-name text-decoration-none mb-0">Tasks
+      <span style="font-size: 16px; font-weight: normal;" class="text-secondary">By Shahad</span>
+    </a>
+
+    <span class="ms-auto me-3">
+      {{ currentUser?.displayName }}
+    </span>
+
+    <button class="avatar" [matMenuTriggerFor]="menu">
+      <img [src]="currentUser?.photoURL ?? '/avatar.jpg'" alt="">
+      <mat-menu #menu="matMenu">
+        <button class="btn" (click)="logout()">Logout</button>
+      </mat-menu>
+    </button>
+    <!--    <button matButton="filled" class="bg-primary">Create Task</button>-->
+    <!--    <a routerLink="todo/calendar" class="text-decoration-none"> for calendar press this </a>-->
+  </div>
+</mat-toolbar>
+<div class="p-3 bg-white w-100 d-flex align-items-center gap-3 border-bottom">
+  <a matButton="" routerLink="/tasks" routerLinkActive="bg-primary text-white"
+     [routerLinkActiveOptions]="{exact: true}">Kanban</a>
+  <a matButton="" routerLink="/tasks/list" routerLinkActive="bg-primary text-white">List</a>
+  <!--  <a matButton="" routerLink="/tasks/calendar">Calendar</a>-->
+  <a matButton="" routerLink="/tasks/timeline" routerLinkActive="bg-primary text-white">Timeline</a>
+
+</div>
+<div class="scrollable">
+  <router-outlet/>
+</div>

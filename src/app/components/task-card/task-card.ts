@@ -1,7 +1,6 @@
 import {MatDialog} from '@angular/material/dialog';
 import {AddTask} from '../add-task/add-task';
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {TaskModel} from '../../todo-kanban/todo-kanban';
+import {Component, inject, Input} from '@angular/core';
 import {TaskService} from '../../services/task-service';
 import {DatePipe, NgClass} from '@angular/common';
 import {
@@ -16,6 +15,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import {ConfirmationDialog} from '../confirmation-dialog/confirmation-dialog';
+import {TaskModel} from '../../models/task';
 
 @Component({
   selector: 'app-task-card',
@@ -27,7 +27,6 @@ import {ConfirmationDialog} from '../confirmation-dialog/confirmation-dialog';
     MatCardHeader,
     MatCardSubtitle,
     MatCardTitle,
-    MatIcon,
     MatIconButton,
     NgClass,
     FormsModule
@@ -37,18 +36,16 @@ import {ConfirmationDialog} from '../confirmation-dialog/confirmation-dialog';
 })
 export class TaskCard {
   @Input() task!: TaskModel;
-  @Output() taskChange = new EventEmitter<void>();
   private taskService = inject(TaskService);
   private dialog = inject(MatDialog);
 
-  deleteTask(taskId: number): void {
+  deleteTask(taskId: string): void {
     const ref = this.dialog.open(ConfirmationDialog, {
       width: '400px',
     });
     ref.afterClosed().subscribe(result => {
       if (!result) return;
-      this.taskService.deleteTask(taskId);
-      this.taskChange.emit();
+      this.taskService.deleteTask(taskId).then();
     });
   }
 
@@ -58,16 +55,13 @@ export class TaskCard {
     });
 
     dialogRef.afterClosed().subscribe((updatedTask: TaskModel) => {
-      console.log(updatedTask);
       if (updatedTask) {
-        this.taskService.updateSpecificTask(updatedTask);
-        this.taskChange.emit(); // To reload the parent task list
+        this.taskService.updateTask(updatedTask).then();
       }
     });
   }
 
   viewTask(task: TaskModel): void {
-    console.log(task);
     this.dialog.open(AddTask, {
       data: task
     })

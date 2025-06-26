@@ -8,8 +8,7 @@ import {MatDatepickerModule, MatDatepickerToggle} from '@angular/material/datepi
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {provideNativeDateAdapter} from '@angular/material/core';
-import {TaskModel} from '../../todo-kanban/todo-kanban';
-import {ReviewTask} from '../../review-task/review-task';
+import {ReviewTask} from '../review-task/review-task';
 
 @Component({
   standalone: true,
@@ -33,8 +32,7 @@ import {ReviewTask} from '../../review-task/review-task';
 export class AddTask implements OnInit {
   readonly data = inject<any>(MAT_DIALOG_DATA);
   isEdit = false;
-  task: TaskModel = {
-    id: this.generateId(),
+  task: any = {
     title: '',
     description: '',
     startDate: '',
@@ -53,14 +51,6 @@ export class AddTask implements OnInit {
     } else {
       this.task.stage = this.data.stage;
     }
-  }
-
-  generateId() {
-    return new Date().getTime();
-  }
-
-  cancel() {
-    this.dialogRef.close();
   }
 
   saveTask() {

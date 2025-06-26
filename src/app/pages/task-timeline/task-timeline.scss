@@ -27,6 +27,7 @@
   width: 100px;
   text-align: right;
   margin-right: 20px;
+  min-width: 83px;
 
   .timeline-date {
     font-weight: bold;
@@ -97,7 +98,7 @@
 
 .timeline-line {
   position: absolute;
-  left: 175px; // final position to align with center of 24px circle
+  left: 178px; // final position to align with center of 24px circle
   top: 50px;
   bottom: 0;
   width: 2px;
