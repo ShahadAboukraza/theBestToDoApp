@@ -42,7 +42,7 @@ export class AuthService {
     logout() {
         signOut(this.auth).then(() => {
             localStorage.removeItem('u'); // Remove user data from storage
-            this.router.navigate(['/login']).then(() => console.log('r')); // Navigate to login page
+            this.router.navigate(['/login']).then(); // Navigate to login page
         }).catch((error) =>
             console.log(error)); // Log any sign-out error
     }
