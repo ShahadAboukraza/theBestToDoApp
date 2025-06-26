@@ -8,6 +8,7 @@ export interface TaskModel {
   members: string;
   priority: string;
   elapsed?: number;
+  order: number;
 }
 
 export interface KanbanTask {

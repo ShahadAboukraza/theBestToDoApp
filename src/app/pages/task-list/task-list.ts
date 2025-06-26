@@ -19,7 +19,6 @@ import {TaskModel} from '../../models/task';
   imports: [MatTableModule, DatePipe, MatIconButton, MatSelect, MatOption, MatFormField, FormsModule, NgForOf],
 })
 
-
 export class TaskList implements OnInit {
   displayedColumns: string[] = ['title', 'stage', 'startDate', 'endDate', 'priority', 'actions']
   dataSource: TaskModel[] = [];

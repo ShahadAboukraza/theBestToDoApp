@@ -4,12 +4,12 @@
       <span style="font-size: 16px; font-weight: normal;" class="text-secondary">By Shahad</span>
     </a>
 
-    <span class="ms-auto m3-3">
+    <span class="ms-auto me-3">
       {{ currentUser?.displayName }}
     </span>
 
     <button class="avatar" [matMenuTriggerFor]="menu">
-      <img [src]="'/avatar.jpg'" alt="">
+      <img [src]="currentUser?.photoURL ?? '/avatar.jpg'" alt="">
       <mat-menu #menu="matMenu">
         <button class="btn" (click)="logout()">Logout</button>
       </mat-menu>
@@ -26,4 +26,6 @@
   <a matButton="" routerLink="/tasks/timeline" routerLinkActive="bg-primary text-white">Timeline</a>
 
 </div>
-<router-outlet/>
+<div class="scrollable">
+  <router-outlet/>
+</div>

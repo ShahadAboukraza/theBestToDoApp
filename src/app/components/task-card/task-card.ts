@@ -27,7 +27,6 @@ import {TaskModel} from '../../models/task';
     MatCardHeader,
     MatCardSubtitle,
     MatCardTitle,
-    MatIcon,
     MatIconButton,
     NgClass,
     FormsModule

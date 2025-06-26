@@ -58,6 +58,14 @@ export class TaskKanban implements OnInit, OnDestroy {
           break;
       }
     }
+
+    Object.values(grouped).forEach(list =>
+      list.sort((a: TaskModel, b: TaskModel) =>
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+      )
+    );
+
+    this.kanbanTasks = grouped;
     this.kanbanTasks = grouped;
   }
 

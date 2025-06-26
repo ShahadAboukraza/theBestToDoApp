@@ -5,13 +5,14 @@ import {
   collectionSnapshots,
   deleteDoc,
   doc,
-  Firestore,
+  Firestore, orderBy,
   query,
   updateDoc,
   where
 } from '@angular/fire/firestore';
 import {BehaviorSubject, map} from 'rxjs';
 import {TaskModel} from '../models/task';
+import {AuthService} from './auth-service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +20,14 @@ import {TaskModel} from '../models/task';
 export class TaskService {
   tasks = new BehaviorSubject<TaskModel[]>([]);
 
-  constructor(private firestore: Firestore) {
+  constructor(private firestore: Firestore, private authService: AuthService) {
   }
 
   getTasks() {
-    const userId = '1';
+    const userId = this.authService.currentUser?.uid;
+    if(!userId) return;
     const tasksRef = collection(this.firestore, 'tasks');
-    const q = query(tasksRef, where('ownerId', '==', userId));
+    const q = query(tasksRef, orderBy('startDate', 'desc'), where('ownerId', '==', userId));
 
     collectionSnapshots(q).pipe(
       map(snapshot => {
@@ -40,7 +42,7 @@ export class TaskService {
   }
 
   addTask(task: any) {
-    const ownerId = '1';
+    const ownerId = this.authService.currentUser?.uid;
     const tasksRef = collection(this.firestore, 'tasks');
     const payload = {
       ...task,
