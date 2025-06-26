@@ -4,12 +4,12 @@ import {Component, inject, Input} from '@angular/core';
 import {TaskService} from '../../services/task-service';
 import {DatePipe, NgClass} from '@angular/common';
 import {
-  MatCard,
-  MatCardContent,
-  MatCardFooter,
-  MatCardHeader,
-  MatCardSubtitle,
-  MatCardTitle
+    MatCard,
+    MatCardContent,
+    MatCardFooter,
+    MatCardHeader,
+    MatCardSubtitle,
+    MatCardTitle
 } from '@angular/material/card';
 import {MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
@@ -38,6 +38,7 @@ export class TaskCard {
     private taskService = inject(TaskService);
     private dialog = inject(MatDialog);
 
+    // Delete a task after user confirms
     deleteTask(taskId: string): void {
         const ref = this.dialog.open(ConfirmationDialog, {
             width: '400px',
@@ -48,9 +49,10 @@ export class TaskCard {
         });
     }
 
+    // Open dialog to edit an existing task
     editTask(task: TaskModel): void {
         const dialogRef = this.dialog.open(AddTask, {
-            data: {...task, isEdit: true}
+            data: {task: task, isEdit: true}
         });
 
         dialogRef.afterClosed().subscribe((updatedTask: TaskModel) => {
@@ -60,6 +62,7 @@ export class TaskCard {
         });
     }
 
+    // View task in read-only mode (if needed)
     viewTask(task: TaskModel): void {
         this.dialog.open(AddTask, {
             data: {task: task}

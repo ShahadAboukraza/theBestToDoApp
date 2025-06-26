@@ -1,6 +1,12 @@
 @if (isEdit) {
     <div class="d-flex flex-column gap-3 p-4 form">
-        <span class="fw-bold">Add task - {{ data.stage }}</span>
+        <span class="fw-bold">
+            @if (task.title) {
+                Edit task - {{ task.title }}
+            } @else {
+                Add task - {{ task.stage }}
+            }
+        </span>
 
         <mat-form-field appearance="outline">
             <mat-label>title</mat-label>

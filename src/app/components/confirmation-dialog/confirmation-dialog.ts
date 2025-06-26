@@ -23,7 +23,8 @@ import {MatButton} from '@angular/material/button';
 export class ConfirmationDialog {
   readonly dialogRef = inject(MatDialogRef<ConfirmationDialog>);
 
+  // Confirm user wants to delete task
   deleteTask() {
-this.dialogRef.close(true);
-}
+    this.dialogRef.close(true);
+  }
 }

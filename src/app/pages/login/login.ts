@@ -1,32 +1,42 @@
+// Import required modules and services
 import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth-service';
 import {RouterLink} from "@angular/router";
 
 @Component({
-  selector: 'app-login',
+    selector: 'app-login',
     imports: [
-        RouterLink
+        RouterLink // Allows router link usage in template
     ],
-  templateUrl: './login.html',
-  styleUrl: './login.scss'
+    templateUrl: './login.html',
+    styleUrl: './login.scss'
 })
 export class Login {
-  loading = false;
+    // Loading flag to show spinner or disable UI during login
+    loading = false;
 
-  constructor(private authService: AuthService) {
-  }
+    // Inject AuthService to handle authentication
+    constructor(private authService: AuthService) {
+    }
 
-  login() {
-    setTimeout(() => {
-      this.loading = true;
-    }, 10);
-    this.authService.login()
-      .then((res) => {
-        this.authService.handleSignIn(res).then();
-        this.loading = false;
-      }).catch(error => {
-      this.loading = false;
-      console.log("error::", error);
-    });
-  }
+    // Called when user clicks the login button
+    login() {
+        // Small delay to ensure loading UI updates
+        setTimeout(() => {
+            this.loading = true;
+        }, 10);
+
+        // Trigger Google login
+        this.authService.login()
+            .then((res) => {
+                // Save login result and redirect
+                this.authService.handleSignIn(res).then();
+                this.loading = false;
+            })
+            .catch(error => {
+                // Handle login failure
+                this.loading = false;
+                console.log("error::", error);
+            });
+    }
 }

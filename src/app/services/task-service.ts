@@ -1,3 +1,4 @@
+// Import Angular and Firebase Firestore utilities
 import {Injectable} from '@angular/core';
 import {
   addDoc,
@@ -5,7 +6,8 @@ import {
   collectionSnapshots,
   deleteDoc,
   doc,
-  Firestore, orderBy,
+  Firestore,
+  orderBy,
   query,
   updateDoc,
   where
@@ -15,55 +17,70 @@ import {TaskModel} from '../models/task';
 import {AuthService} from './auth-service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root' // Makes this service available app-wide
 })
 export class TaskService {
-  tasks = new BehaviorSubject<TaskModel[]>([]);
+    // Observable that holds the current list of tasks
+    tasks = new BehaviorSubject<TaskModel[]>([]);
 
-  constructor(private firestore: Firestore, private authService: AuthService) {
-  }
+    constructor(private firestore: Firestore, private authService: AuthService) {
+    }
 
-  getTasks() {
-    const userId = this.authService.currentUser?.uid;
-    if(!userId) return;
-    const tasksRef = collection(this.firestore, 'tasks');
-    const q = query(tasksRef, orderBy('startDate', 'desc'), where('ownerId', '==', userId));
+    // Fetch tasks from Firestore for the logged-in user
+    getTasks() {
+        const userId = this.authService.currentUser?.uid;
+        if (!userId) return;
 
-    collectionSnapshots(q).pipe(
-      map(snapshot => {
-        const tasks = snapshot.map(snap => ({
-          id: snap.id,
-          ...snap.data()
-        })) as unknown as TaskModel[];
-        this.tasks.next(tasks);
-        return tasks;
-      })
-    ).subscribe();
-  }
+        const tasksRef = collection(this.firestore, 'tasks');
 
-  addTask(task: any) {
-    const ownerId = this.authService.currentUser?.uid;
-    const tasksRef = collection(this.firestore, 'tasks');
-    const payload = {
-      ...task,
-      ownerId,
-      startDate: task.startDate.toISOString(),
-      endDate: task.endDate.toISOString(),
-    };
-    return addDoc(tasksRef, payload);
-  }
+        // Query tasks by current user, ordered by start date (newest first)
+        const q = query(tasksRef, orderBy('startDate', 'desc'), where('ownerId', '==', userId));
 
-  deleteTask(id: string) {
-    const docRef = doc(this.firestore, 'tasks', id);
-    return deleteDoc(docRef);
-  }
+        // Listen for real-time updates to the queried tasks
+        collectionSnapshots(q).pipe(
+            map(snapshot => {
+                const tasks = snapshot.map(snap => ({
+                    id: snap.id,
+                    ...snap.data()
+                })) as unknown as TaskModel[];
 
-  updateTask(task: any) {
-    const {id, ...payload} = task;
-    const docRef = doc(this.firestore, 'tasks', id);
-    payload.startDate = task.startDate instanceof Date ? task.startDate.toISOString() : task.startDate;
-    payload.endDate = task.endDate instanceof Date ? task.endDate.toISOString() : task.endDate;
-    return updateDoc(docRef, payload);
-  }
+                this.tasks.next(tasks); // Update BehaviorSubject
+                return tasks;
+            })
+        ).subscribe();
+    }
 
+    // Add a new task to Firestore
+    addTask(task: any) {
+        const ownerId = this.authService.currentUser?.uid;
+        const tasksRef = collection(this.firestore, 'tasks');
+
+        // Convert dates to string format for storage
+        const payload = {
+            ...task,
+            ownerId,
+            startDate: task.startDate.toISOString(),
+            endDate: task.endDate.toISOString(),
+        };
+
+        return addDoc(tasksRef, payload);
+    }
+
+    // Delete a task by its ID
+    deleteTask(id: string) {
+        const docRef = doc(this.firestore, 'tasks', id);
+        return deleteDoc(docRef);
+    }
+
+    // Update an existing task
+    updateTask(task: any) {
+        const {id, ...payload} = task;
+        const docRef = doc(this.firestore, 'tasks', id);
+
+        // Ensure date fields are in ISO format
+        payload.startDate = task.startDate instanceof Date ? task.startDate.toISOString() : task.startDate;
+        payload.endDate = task.endDate instanceof Date ? task.endDate.toISOString() : task.endDate;
+
+        return updateDoc(docRef, payload);
+    }
 }
