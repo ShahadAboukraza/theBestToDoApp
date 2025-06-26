@@ -10,6 +10,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {TaskModel} from '../../models/task';
 import {Subject, takeUntil} from 'rxjs';
 import {AddTask} from "../../components/add-task/add-task";
+import {TaskCard} from "../../components/task-card/task-card";
 
 @Component({
     selector: 'app-task-timeline',
@@ -22,7 +23,8 @@ import {AddTask} from "../../components/add-task/add-task";
         MatIconModule,
         MatCardModule,
         DatePipe,
-        MatIconButton
+        MatIconButton,
+        TaskCard
     ]
 })
 export class TaskTimeline implements OnInit {
@@ -87,7 +89,7 @@ export class TaskTimeline implements OnInit {
 
     // Calculate height of the timeline based on number of tasks
     timelineHeight() {
-        return (this.tasks.length - 1) * 204 + 'px';
+        return (this.tasks.length - 1) * 390 + 'px';
     }
 
     // Open dialog to view task details

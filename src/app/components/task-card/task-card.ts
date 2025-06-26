@@ -37,6 +37,7 @@ export class TaskCard {
     @Input() task!: TaskModel;
     private taskService = inject(TaskService);
     private dialog = inject(MatDialog);
+    @Input() mini = true;
 
     // Delete a task after user confirms
     deleteTask(taskId: string): void {

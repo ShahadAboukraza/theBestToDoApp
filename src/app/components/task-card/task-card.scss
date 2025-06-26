@@ -34,11 +34,15 @@ mat-card-content p {
   font-size: 14px;
   color: #888;
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Show max 2 lines */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: pre-wrap;
+
+  &.mini {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Show max 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 mat-card-footer {
@@ -77,4 +81,9 @@ button[mat-icon-button] {
 
 .mat-mdc-icon-button {
   line-height: 20px;
+}
+
+.content {
+  max-height: 65vh;
+  overflow: auto;
 }

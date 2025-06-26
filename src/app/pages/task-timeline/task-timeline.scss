@@ -74,7 +74,7 @@
   border-left: 4px solid #4caf50;
   padding: 1rem;
   margin-left: 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
   .timer-bar {
@@ -92,8 +92,8 @@
 .timeline-container {
   position: relative;
   padding-left: 60px;
-  max-height: calc(100vh - 150px);
-  overflow-y: auto;
+  //max-height: calc(100vh - 150px);
+  //overflow-y: auto;
 }
 
 .timeline-line {
@@ -164,7 +164,14 @@
   padding: 1rem;
   border-left: 4px solid #4caf50;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  max-width: 730px;
+}
+
+.title {
+  background: #f3f3f3;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 1rem;
 }
 
 .timer-bar {
@@ -175,8 +182,8 @@
 }
 
 .time-bar {
-  width: 200px;
-  height: 80px;
+  width: 155px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -184,6 +191,89 @@
   color: white;
   border-radius: 8px;
   text-align: center;
-  font-size: 44px;
+  font-size: 30px;
   font-family: monospace;
+}
+
+@media (max-width: 746px) {
+  .timeline-container {
+    padding-left: 0;
+    padding-right: 10px;
+  }
+
+  .timeline-line {
+    left: 100px;
+    top: 55px;
+  }
+
+  .timeline-node {
+    margin-right: 0;
+  }
+
+  .timeline-dateblock {
+    margin-right: 3px;
+  }
+}
+
+
+/////////////////////
+
+
+.card {
+  min-width: 20rem;
+  width: 100%;
+  max-width: 40rem;
+  border-radius: 0.75rem;
+  background: white;
+  color: #374151;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+.card-header {
+  height: 10rem;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.4);
+  font-size: 40px;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.card-footer {
+  padding: 0 1.5rem 1.5rem;
+}
+
+.card-button {
+  background: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+  transition: all 0.3s ease;
+}
+
+.card-button:hover {
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
+  opacity: 0.95;
 }

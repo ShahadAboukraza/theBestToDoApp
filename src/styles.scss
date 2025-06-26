@@ -58,3 +58,26 @@ body {
 button.btn {
   font-size: 13px;
 }
+
+.badge {
+  max-width: 80px;
+  height: 23px;
+  font-weight: normal;
+  border-radius: 4px;
+}
+
+.todo {
+  background: #FFB74D;
+}
+
+.in-progress {
+  background: #42A5F5;
+}
+
+.review {
+  background: #AB47BC;
+}
+
+.done {
+  background: #66BB6A;
+}

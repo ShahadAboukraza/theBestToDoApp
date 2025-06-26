@@ -2,6 +2,7 @@
   <div [style.height]="timelineHeight()" class="timeline-line"></div>
 
   <div *ngFor="let task of tasks" class="timeline-item">
+
     <div class="timeline-dateblock">
       <div class="timeline-date">{{ task.startDate | date: 'dd MMM' }}</div>
       <div class="timeline-time">{{ task.startDate | date: 'hh:mm a' }}</div>
@@ -19,30 +20,46 @@
       </div>
     </div>
 
-    <div class="timeline-content">
-      <mat-card (dblclick)="viewTask(task)" class="timeline-card">
-        <mat-card-title>{{ task.title }}</mat-card-title>
-        <mat-card-content class="ps-0 d-flex justify-content-between gap-3 align-items-center">
-          <div class="d-flex flex-column gap-2">
-            <span style="min-width: 350px; white-space: pre-wrap;">{{ task.description }}</span>
-            <span><strong>Stage:</strong> {{ task.stage }}</span>
-            <span><strong>Priority:</strong> {{ task.priority }}</span>
-          </div>
-          <div class="bg-secondary rounded text-white fw-bold time-bar">
-            {{ formatTime(task.elapsed || 0) }}
-          </div>
-          <div class="d-flex justify-content-end gap-3 align-items-center">
-            <button (click)="resetTimer(task)" mat-icon-button>
-              <mat-icon>replay</mat-icon>
-            </button>
-            <button (click)="toggleTimer(task)" mat-icon-button>
-              <mat-icon>
-                {{ intervalHandles[task.id] ? 'stop_circle' : 'play_circle' }}
-              </mat-icon>
-            </button>
-          </div>
-        </mat-card-content>
-      </mat-card>
+    <div class="card border-0 shadow-none ms-2">
+      <div class="card-header d-flex justify-content-center align-items-center flex-column text-white fw-bold">
+        {{ formatTime(task.elapsed || 0) }}
+        <div class="d-flex justify-content-end gap-3 align-items-center">
+          <button (click)="resetTimer(task)" mat-icon-button class="text-white">
+            <mat-icon>replay</mat-icon>
+          </button>
+          <button (click)="toggleTimer(task)" mat-icon-button class="text-white">
+            <mat-icon>
+              {{ intervalHandles[task.id] ? 'stop_circle' : 'play_circle' }}
+            </mat-icon>
+          </button>
+        </div>
+      </div>
+      <app-task-card [task]="task"/>
     </div>
+
+    <!--    <div class="timeline-content">-->
+    <!--      <mat-card (dblclick)="viewTask(task)" class="timeline-card">-->
+    <!--        <mat-card-title class="title">{{ task.priority }} {{ task.title }}</mat-card-title>-->
+    <!--        <mat-card-content-->
+    <!--          class="p-0 d-flex justify-content-between gap-3 align-items-center flex-column flex-md-row mt-2">-->
+    <!--          <div class="d-flex flex-column gap-2">-->
+    <!--            <span style="min-width: 200px; white-space: pre-wrap; font-size: .9rem;">{{ task.description }}</span>-->
+    <!--          </div>-->
+    <!--          <div class="bg-secondary rounded text-white fw-bold time-bar">-->
+    <!--            {{ formatTime(task.elapsed || 0) }}-->
+    <!--          </div>-->
+    <!--          <div class="d-flex justify-content-end gap-3 align-items-center">-->
+    <!--            <button (click)="resetTimer(task)" mat-icon-button class="text-secondary">-->
+    <!--              <mat-icon>replay</mat-icon>-->
+    <!--            </button>-->
+    <!--            <button (click)="toggleTimer(task)" mat-icon-button class="text-primary">-->
+    <!--              <mat-icon>-->
+    <!--                {{ intervalHandles[task.id] ? 'stop_circle' : 'play_circle' }}-->
+    <!--              </mat-icon>-->
+    <!--            </button>-->
+    <!--          </div>-->
+    <!--        </mat-card-content>-->
+    <!--      </mat-card>-->
+    <!--    </div>-->
   </div>
 </div>
