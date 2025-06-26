@@ -13,82 +13,82 @@ import {Subject, takeUntil} from 'rxjs';
 import {TaskModel} from '../../models/task';
 
 @Component({
-  selector: 'app-task-list',
-  styleUrl: 'task-list.scss',
-  templateUrl: 'task-list.html',
-  imports: [MatTableModule, DatePipe, MatIconButton, MatSelect, MatOption, MatFormField, FormsModule, NgForOf],
+    selector: 'app-task-list',
+    styleUrl: 'task-list.scss',
+    templateUrl: 'task-list.html',
+    imports: [MatTableModule, DatePipe, MatIconButton, MatSelect, MatOption, MatFormField, FormsModule, NgForOf],
 })
 
 export class TaskList implements OnInit {
-  displayedColumns: string[] = ['title', 'stage', 'startDate', 'endDate', 'priority', 'actions']
-  dataSource: TaskModel[] = [];
-  stages = ['To do', 'In progress', 'Review', 'Done'];
-  private dialog = inject(MatDialog);
-  private taskService = inject(TaskService);
-  private destroy$ = new Subject<void>();
+    displayedColumns: string[] = ['title', 'stage', 'startDate', 'endDate', 'priority', 'actions']
+    dataSource: TaskModel[] = [];
+    stages = ['To do', 'In progress', 'Review', 'Done'];
+    private dialog = inject(MatDialog);
+    private taskService = inject(TaskService);
+    private destroy$ = new Subject<void>();
 
-  ngOnInit(): void {
-    this.taskService.tasks
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(tasks => this.dataSource = tasks);
-  }
+    ngOnInit(): void {
+        this.taskService.tasks
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(tasks => this.dataSource = tasks);
+    }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(AddTask, {
-      width: '600px',
-      data: {
-        stage: 'To do', // default value passed to dialog,
-        isEdit: true // to enable edit mode since we are using the same component for view,
-      }
-    });
+    openDialog(): void {
+        const dialogRef = this.dialog.open(AddTask, {
+            width: '600px',
+            data: {
+                stage: 'To do', // default value passed to dialog,
+                isEdit: true // to enable edit mode since we are using the same component for view,
+            }
+        });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.save(result); // Only save if there's valid result
-      }
-    });
-  }
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.save(result); // Only save if there's valid result
+            }
+        });
+    }
 
-  save(data: TaskModel): void {
-    this.taskService.addTask(data).then();
-  }
+    save(data: TaskModel): void {
+        this.taskService.addTask(data).then();
+    }
 
-  deleteTask(taskId: string): void {
-    const ref = this.dialog.open(ConfirmationDialog, {
-      width: '400px',
-    });
-    ref.afterClosed().subscribe(result => {
-      if (!result) return;
-      this.taskService.deleteTask(taskId).then();
-    });
-  }
+    deleteTask(taskId: string): void {
+        const ref = this.dialog.open(ConfirmationDialog, {
+            width: '400px',
+        });
+        ref.afterClosed().subscribe(result => {
+            if (!result) return;
+            this.taskService.deleteTask(taskId).then();
+        });
+    }
 
-  editTask(task: TaskModel): void {
-    const dialogRef = this.dialog.open(AddTask, {
-      data: {...task} // pass current task data
-    });
+    editTask(task: TaskModel): void {
+        const dialogRef = this.dialog.open(AddTask, {
+            data: {...task} // pass current task data
+        });
 
-    dialogRef.afterClosed().subscribe((updatedTask: TaskModel) => {
-      if (updatedTask) {
-        this.taskService.updateTask(updatedTask).then();
-      }
-    });
-  }
+        dialogRef.afterClosed().subscribe((updatedTask: TaskModel) => {
+            if (updatedTask) {
+                this.taskService.updateTask(updatedTask).then();
+            }
+        });
+    }
 
-  updateStage($event: string, task: TaskModel): void {
-    //  Update the task stage
-    task.stage = $event;
-    this.taskService.updateTask(task).then();
-  }
+    updateStage($event: string, task: TaskModel): void {
+        //  Update the task stage
+        task.stage = $event;
+        this.taskService.updateTask(task).then();
+    }
 
-  viewTask(task: TaskModel): void {
-    this.dialog.open(AddTask, {
-      data: task
-    })
-  }
+    viewTask(task: TaskModel): void {
+        this.dialog.open(AddTask, {
+            data: {task: task}
+        })
+    }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 }

@@ -19,13 +19,12 @@
       </div>
     </div>
 
-    <!-- ⬇️ Double-click now applies only to this task card -->
     <div class="timeline-content">
       <mat-card (dblclick)="viewTask(task)" class="timeline-card">
         <mat-card-title>{{ task.title }}</mat-card-title>
         <mat-card-content class="ps-0 d-flex justify-content-between gap-3 align-items-center">
           <div class="d-flex flex-column gap-2">
-            <span>{{ task.description }}</span>
+            <span style="min-width: 350px; white-space: pre-wrap;">{{ task.description }}</span>
             <span><strong>Stage:</strong> {{ task.stage }}</span>
             <span><strong>Priority:</strong> {{ task.priority }}</span>
           </div>

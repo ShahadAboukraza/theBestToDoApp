@@ -11,49 +11,50 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import {ReviewTask} from '../review-task/review-task';
 
 @Component({
-  standalone: true,
-  selector: 'app-add-task',
-  imports: [
-    FormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatDatepickerToggle,
-    MatButtonModule,
-    MatIconModule,
-    ReviewTask
-  ],
-  templateUrl: './add-task.html',
-  styleUrls: ['./add-task.scss'],
-  providers: [provideNativeDateAdapter()]
+    standalone: true,
+    selector: 'app-add-task',
+    imports: [
+        FormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatDatepickerToggle,
+        MatButtonModule,
+        MatIconModule,
+        ReviewTask
+    ],
+    templateUrl: './add-task.html',
+    styleUrls: ['./add-task.scss'],
+    providers: [provideNativeDateAdapter()]
 })
 export class AddTask implements OnInit {
-  readonly data = inject<any>(MAT_DIALOG_DATA);
-  isEdit = false;
-  task: any = {
-    title: '',
-    description: '',
-    startDate: '',
-    endDate: '',
-    stage: this.data.stage,
-    members: '',
-    priority: ''
-  };
-  private dialogRef = inject(MatDialogRef<AddTask>);
+    readonly data = inject<any>(MAT_DIALOG_DATA);
+    isEdit = false;
+    task: any = {
+        title: '',
+        description: '',
+        startDate: '',
+        endDate: '',
+        stage: this.data.stage,
+        members: '',
+        priority: ''
+    };
+    private dialogRef = inject(MatDialogRef<AddTask>);
 
-  ngOnInit() {
-    // If editing existing task
-    this.isEdit = this.data.isEdit;
-    if (this.data.title) {
-      this.task = {...this.data}
-    } else {
-      this.task.stage = this.data.stage;
+    ngOnInit() {
+        // If editing existing task
+        this.isEdit = this.data.isEdit;
+        if (this.data.task) {
+            this.task = {...this.data.task}
+        } else {
+            this.task.stage = this.data.stage;
+        }
+        console.log(this.task);
     }
-  }
 
-  saveTask() {
-    this.dialogRef.close(this.task);
-  }
+    saveTask() {
+        this.dialogRef.close(this.task);
+    }
 }
