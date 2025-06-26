@@ -11,7 +11,6 @@ import {
   MatCardSubtitle,
   MatCardTitle
 } from '@angular/material/card';
-import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import {ConfirmationDialog} from '../confirmation-dialog/confirmation-dialog';
@@ -67,4 +66,3 @@ export class TaskCard {
     })
   }
 }
-
